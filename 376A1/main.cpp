@@ -29,8 +29,6 @@ int main(int argc, const char * argv[]) {
     std::vector<cl::Platform> platforms;
     std::vector<cl::Device> devices;
     
-    cl::Device selectedDevice;
-    
     cl::Context context;
     std::vector<cl::Device> contextDevices;
     cl::CommandQueue queue;
@@ -99,32 +97,33 @@ int main(int argc, const char * argv[]) {
         std::cout << "Select a device >> ";
         deviceSelect = -1;
         std::cin >> deviceSelect;
-        selectedDevice = devices[deviceSelect];
-        std::string deviceExt = selectedDevice.getInfo<CL_DEVICE_EXTENSIONS>();
+        std::string deviceExt = devices[deviceSelect].getInfo<CL_DEVICE_EXTENSIONS>();
         
         //std::cout << deviceExt << std::endl;
-        std::cout << "Device ";
+        std::cout << "\nDevice ";
         if(!(deviceExt.find("cl_khr_icd") == std::string::npos))
             std::cout << "supports ";
         else
             std::cout << "does not support ";
-        std::cout << "cl_khr_icd extension" << std::endl;
+        std::cout << "cl_khr_icd extension\n" << std::endl;
 
-
-        context = cl::Context(selectedDevice);
+        context = cl::Context(devices[deviceSelect]);
         contextDevices = context.getInfo<CL_CONTEXT_DEVICES>();
-        queue = cl::CommandQueue(context, selectedDevice);
+        queue = cl::CommandQueue(context, contextDevices[0]);
+        std::cout << "==============================" << std::endl;
+
         
         //PART 4 SOURCE FILE
         std::ifstream programFile("source.cl");
         if(!programFile.is_open()){
             quit_program("File not found");
         }
-        
         std::string programString(
                                    std::istreambuf_iterator<char>(programFile),
                                    (std::istreambuf_iterator<char>())
                                  );
+        programFile.close();
+        
         //std::cout << programString << std::endl;
         
         cl::Program::Sources source(1, std::make_pair(programString.c_str(), programString.length() + 1));
@@ -132,18 +131,22 @@ int main(int argc, const char * argv[]) {
         try{
             program.build(contextDevices);
             std::cout << "Build Successful" << std::endl;
-            std::cout << "Device - " << selectedDevice.getInfo<CL_DEVICE_NAME>() << ", build log:" << std::endl;
-            std::cout << program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(selectedDevice) << std::endl;
-            
+            for(int i = 0; i<contextDevices.size();i++){
+                std::cout << "Device - " << contextDevices[i].getInfo<CL_DEVICE_NAME>() << ", build log:" << std::endl;
+                std::cout << program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(contextDevices[i]) << std::endl;
+            }
         }
         catch (cl::Error e){
             if (e.err() == CL_BUILD_PROGRAM_FAILURE){
                 std::cout << e.what() << ": Failed to build program." << std::endl;
-                std::cout << "Device ‐ " << selectedDevice.getInfo<CL_DEVICE_NAME>() << ", build log:"<< std::endl;
-                std::cout << program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(selectedDevice) << "‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐" << std::endl;
+                for(int i=0;i<contextDevices.size();i++){
+                std::cout << "Device ‐ " << contextDevices[i].getInfo<CL_DEVICE_NAME>() << ", build log:"<< std::endl;
+                std::cout << program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(contextDevices[i]) << "‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐‐" << std::endl;
+                }
             }
         }
-        
+        std::cout << "==============================" << std::endl;
+
         //PART 5 KERNEL OPERATIONS
         program.createKernels(&allKernels);
         std::cout << "Number of kernels: " << allKernels.size() << std::endl;
