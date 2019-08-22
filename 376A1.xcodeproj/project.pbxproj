@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		7F15ECC02300EAAB002D9DB9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F15ECBF2300EAAB002D9DB9 /* main.cpp */; };
+		7F15ECC72300EADF002D9DB9 /* source.cl in Sources */ = {isa = PBXBuildFile; fileRef = 7F15ECC62300EADF002D9DB9 /* source.cl */; };
+		7F15ECCA2300EB49002D9DB9 /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F15ECC92300EB49002D9DB9 /* OpenCL.framework */; };
+		7F15ECCC2300EB7D002D9DB9 /* source.cl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7F15ECC62300EADF002D9DB9 /* source.cl */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -20,11 +23,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		7F15ECCB2300EB5D002D9DB9 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				7F15ECCC2300EB7D002D9DB9 /* source.cl in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		7F15ECBC2300EAAB002D9DB9 /* 376A1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = 376A1; sourceTree = BUILT_PRODUCTS_DIR; };
-		7F15ECBF2300EAAB002D9DB9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		7F15ECBF2300EAAB002D9DB9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		7F15ECC62300EADF002D9DB9 /* source.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = source.cl; sourceTree = "<group>"; };
+		7F15ECC92300EB49002D9DB9 /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
+		7F15ECCD2300EFEE002D9DB9 /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = error.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F15ECCA2300EB49002D9DB9 /* OpenCL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +60,7 @@
 			children = (
 				7F15ECBE2300EAAB002D9DB9 /* 376A1 */,
 				7F15ECBD2300EAAB002D9DB9 /* Products */,
+				7F15ECC82300EB49002D9DB9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,9 +75,19 @@
 		7F15ECBE2300EAAB002D9DB9 /* 376A1 */ = {
 			isa = PBXGroup;
 			children = (
+				7F15ECCD2300EFEE002D9DB9 /* error.h */,
+				7F15ECC62300EADF002D9DB9 /* source.cl */,
 				7F15ECBF2300EAAB002D9DB9 /* main.cpp */,
 			);
 			path = 376A1;
+			sourceTree = "<group>";
+		};
+		7F15ECC82300EB49002D9DB9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7F15ECC92300EB49002D9DB9 /* OpenCL.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -72,6 +100,7 @@
 				7F15ECB82300EAAB002D9DB9 /* Sources */,
 				7F15ECB92300EAAB002D9DB9 /* Frameworks */,
 				7F15ECBA2300EAAB002D9DB9 /* CopyFiles */,
+				7F15ECCB2300EB5D002D9DB9 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -119,6 +148,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7F15ECC02300EAAB002D9DB9 /* main.cpp in Sources */,
+				7F15ECC72300EADF002D9DB9 /* source.cl in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +270,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -248,6 +279,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
